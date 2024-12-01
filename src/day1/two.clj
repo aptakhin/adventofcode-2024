@@ -1,4 +1,4 @@
-(ns day1.one)
+(ns day1.two)
 
 (comment
   "Please, place the `input` file in the same directory as this file."
@@ -12,17 +12,16 @@
                                (line-seq rdr)))))
 
 (def data (parse-file "src/day1/input"))
-(comment
-  (second (first data))
-  :rcf)
 
 (def first-list (map first data))
 (def second-list (map second data))
 
-(def sorted-first-list (sort first-list))
-(def sorted-second-list (sort second-list))
+(def counts (frequencies second-list))
 
-(def differences (map abs(map - sorted-first-list sorted-second-list)))
-(apply + differences)
-(def sum (apply + differences))
-(println sum)
+(defn check-value [value counts]
+  (get counts value 0))
+
+(def frequencies-entries (map #(check-value % counts) first-list))
+(def frequencies-entries-sum (apply + (map * first-list frequencies-entries)))
+
+(println frequencies-entries-sum)
