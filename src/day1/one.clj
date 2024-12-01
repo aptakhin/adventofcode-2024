@@ -1,15 +1,15 @@
 (ns day1.one)
 
 (comment
-  "Place input to the `input` file in the same directory as this file"
+  "Please, place the `input` file in the same directory as this file."
   :rcf)
 
+(comment "Copilot magic. Difficult readable :(" :rcf)
 (defn parse-file [file-path]
       (with-open [rdr (clojure.java.io/reader file-path)]
             (doall
                   (map #(mapv read-string (clojure.string/split % #"\s+"))
                                (line-seq rdr)))))
-
 
 (def data (parse-file "src/1/input"))
 (comment
