@@ -23,6 +23,5 @@
 (def sorted-second-list (sort second-list))
 
 (def differences (map abs(map - sorted-first-list sorted-second-list)))
-(apply + differences)
 (def sum (apply + differences))
 (println sum)
