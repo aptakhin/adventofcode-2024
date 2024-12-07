@@ -1,4 +1,4 @@
-(ns day4.one
+(ns day4.two
   (:require [clojure.string :as str]))
 
 (comment
@@ -23,8 +23,8 @@
 (defn safe-compare [x y char]
   (= char (get-char x y)))
 
-(defn search-for-xmas-in-direction [x y xdir ydir]
-  (and (safe-compare x y \X) (safe-compare (+ x xdir) (+ y ydir) \M) (safe-compare (+ x xdir xdir) (+ y ydir ydir) \A) (safe-compare (+ x xdir xdir xdir) (+ y ydir ydir ydir) \S)))
+(defn search-for-mas-with-center-in-direction [x y xdir ydir]
+  (and (safe-compare (- x xdir) (- y ydir) \M) (safe-compare x y \A) (safe-compare (+ x xdir) (+ y ydir) \S)))
 
 (comment
 ;;  (assert (= (get-char 0 3) \S) "Expected character at (0, 3) to be 'S'")
@@ -34,25 +34,23 @@
  (safe-compare 0 0 \M)
  (safe-compare 5 0 \X)
  (safe-compare 6 0 \M)
-;;  (assert (= (search-for-xmas-in-direction 5 0 1 0) true) "hello")
 :rcf)
 
 (defn search-for-xmas-in [x y]
-  (list
-   (search-for-xmas-in-direction x y 1 0)
-   (search-for-xmas-in-direction x y -1 0)
-   (search-for-xmas-in-direction x y 0 1)
-   (search-for-xmas-in-direction x y 0 -1)
-   (search-for-xmas-in-direction x y 1 1)
-   (search-for-xmas-in-direction x y -1 -1)
-   (search-for-xmas-in-direction x y 1 -1)
-   (search-for-xmas-in-direction x y -1 1)
+  (and
+   (or
+    (search-for-mas-with-center-in-direction x y 1 1)
+    (search-for-mas-with-center-in-direction x y -1 -1)
+    )
+   (or
+    (search-for-mas-with-center-in-direction x y 1 -1)
+    (search-for-mas-with-center-in-direction x y -1 1))
    ))
 
 (defn count-search-for-xmas-in [x y]
-  (count (filter true? (search-for-xmas-in x y))))
+  (if (search-for-xmas-in x y) 1 0))
 
-(count-search-for-xmas-in 5 0)
+(count-search-for-xmas-in 2 1)
 
 (defn iterate-map []
   (reduce + (for [x (range size)
@@ -60,4 +58,3 @@
               (count-search-for-xmas-in x y))))
 
 (iterate-map)
-
